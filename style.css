@@ -1,0 +1,89 @@
+.wrapper {
+    width: 900px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    margin: 0 auto;
+}
+
+.input {
+    width: 900px;
+    height: 250px;
+    margin: 30px 0 30px 0;
+}
+
+.row {
+    display: flex;
+    
+}
+
+.button {
+    height: 50px;
+    border-radius: 5px;
+    background-color: #c4c4c4;
+    border: 1px solid #6b6b6b;
+    margin: 3px;
+    text-align: center;
+    line-height: 45px;
+
+       
+}
+
+.tilda {
+    width: 50px;
+}
+
+.number {
+    width: 50px;
+    align-items: baseline;
+}
+
+.backspace {
+    width: 140px;
+}
+
+.tab {
+    width: 70px;
+}
+
+.letter {
+    width: 50px;
+}
+
+.backslash {
+    width: 50px;
+}
+
+.del {
+    width: 60px;
+}
+
+.capslock {
+    width: 100px;
+}
+
+.enter {
+    width: 150px;
+}
+
+.leftshift {
+    width: 130px;
+}
+
+.up, .left, .right, .down {
+    width: 50px;
+}
+.rightshift {
+    width: 120px;
+}
+
+.ctrl {
+    width: 70px;
+}
+
+.win, .alt {
+    width: 50px;
+}
+
+.space {
+    width: 318px;
+}
