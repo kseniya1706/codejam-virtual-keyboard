@@ -12,8 +12,7 @@
 }
 
 .row {
-    display: flex;
-    
+    display: flex;    
 }
 
 .button {
@@ -23,8 +22,7 @@
     border: 1px solid #6b6b6b;
     margin: 3px;
     text-align: center;
-    line-height: 45px;
-       
+    line-height: 45px;       
 }
 
 .tilda {

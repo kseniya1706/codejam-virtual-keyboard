@@ -59,7 +59,7 @@ const buttons = [ [
     ["letter", "m", "M", "ь", "Ь", "77"],
     ["letter", ",", "<", "б", "Б", "188"],
     ["letter", ".", ">", "ю", "Ю", "190"],
-    ["letter", "/`", "?", ".", ",", "191"],
+    ["letter", "/", "?", ".", ",", "191"],
     ["up", "up", "up", "up", "up", "38"],
     ["rightshift", "Shift", "Shift", "Shift", "Shift", "16"]
 ],
@@ -75,35 +75,55 @@ const buttons = [ [
     ["right", "right", "right", "right", "right", "39"]
 ]];
 
-const input = document.createElement('input');
+let indexKey = 1;
+
+const input = document.createElement('textarea');
 input.className = 'input';
-input.setAttribute('type', 'textarea');
 document.body.prepend(input);
+input.focus();
 
-const keyboardDiv = document.createElement('div');
-keyboardDiv.className = 'keyboard';
-input.after(keyboardDiv);
+function drawKeyboard (index){
+    if (document.querySelector('.keyboard')){
+        document.querySelector('.keyboard').remove();
+    }
 
-buttons.forEach((row) => {
-    const rowDiv = document.createElement('div');
-    rowDiv.className = 'row';
-    keyboardDiv.append(rowDiv);
-    row.forEach((item) => {
-        const buttonDiv = document.createElement('div');
-        buttonDiv.classList.add('button');
-        buttonDiv.classList.add(item[0]);
-        buttonDiv.classList.add(`code${item[5]}`);
-        buttonDiv.innerHTML = item[1];  
-        rowDiv.append(buttonDiv);
-    });
+    const keyboardDiv = document.createElement('div');
+    keyboardDiv.className = 'keyboard';
+
+    input.after(keyboardDiv);
+        buttons.forEach((row) => {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'row';
+            keyboardDiv.append(rowDiv);
+            row.forEach((item) => {
+                const buttonDiv = document.createElement('div');
+                buttonDiv.classList.add('button');
+                buttonDiv.classList.add(item[0]);
+                buttonDiv.classList.add(`code${item[5]}`);
+                buttonDiv.innerHTML = item[index];  
+                rowDiv.append(buttonDiv);
+            });
+        });
+}
+
+drawKeyboard(indexKey);
+
+document.querySelector('.keyboard').addEventListener('mousedown', () => mouseDownAction(event));
+document.querySelector('.keyboard').addEventListener('mouseup', () => mouseActionStop(event));
+document.querySelector('.keyboard').addEventListener('mouseout', () => mouseActionStop(event));
+
+document.addEventListener('keydown', () => pressKey(event));
+document.addEventListener('keyup', () => {
+    document.querySelector(`.code${event.keyCode}`).classList.remove('press');
 });
 
-document.querySelector('.keyboard').addEventListener('mousedown', () => {
+function mouseDownAction(event) {
     if (event.target.className.includes('button')) {
         event.target.classList.add('press');
+        document.querySelector('.input').focus();
         document.querySelector('.input').value += event.target.innerHTML;
     }
-} );
+}
 
 function mouseActionStop(event) {
     if (event.target.className.includes('button')) {
@@ -111,16 +131,38 @@ function mouseActionStop(event) {
     }
 }
 
-document.querySelector('.keyboard').addEventListener('mouseup', () => mouseActionStop(event));
-document.querySelector('.keyboard').addEventListener('mouseout', () => mouseActionStop(event));
-
-
-function pressKey(code, key) {
-    document.querySelector('.input').value += key;
-    document.querySelector(`.code${code}`).classList.add('press');
+function pressKey(event) {
+   let userTxt = document.querySelector('.input');
+   
+    if (event.target.className.includes('.letter')
+    || event.target.className.includes('.number')
+    || event.target.className.includes('.tilda')
+    || event.target.className.includes('.space')
+    || event.target.className.includes('.enter')
+    || event.target.className.includes('.backslash')){
+        userTxt.value += event.key;
+    }
+    if (event.target.className.includes('.backspace')){
+        userTxt.value.slice(0,userTxt.length-1);
+    }
+    if (event.keyCode == 20){
+        if (indexKey == 1 || indexKey == 3){
+            indexKey++;
+        }
+        else {
+            indexKey--;
+        }
+       drawKeyboard(indexKey);
+    }
+    if (event.keyCode == 17 && event.keyCode == 18){
+        if (indexKey == 1 || indexKey == 2){
+            indexKey +=2;
+        }
+        else {
+            indexKey -=2;
+        }
+       drawKeyboard(indexKey);
+    }
+    document.querySelector('.input').focus();
+    document.querySelector(`.code${event.keyCode}`).classList.add('press');
 }
-
-document.addEventListener('keydown', () => pressKey(event.keyCode, event.key));
-document.addEventListener('keyup', () => {
-    document.querySelector(`.code${event.keyCode}`).classList.remove('press');
-});
